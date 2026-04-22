@@ -1,0 +1,63 @@
+# Default configuration for differential privacy implementation
+
+data:
+  synthetic:
+    n_samples: 1000
+    n_features: 10
+    noise_level: 0.1
+    random_seed: 42
+  
+  splits:
+    train_ratio: 0.7
+    val_ratio: 0.15
+    test_ratio: 0.15
+
+privacy:
+  epsilon: 1.0
+  delta: 1e-5
+  mechanisms:
+    - laplace
+    - gaussian
+    - exponential
+
+model:
+  learning_rate: 0.01
+  batch_size: 32
+  epochs: 100
+  
+  dp_sgd:
+    noise_multiplier: 1.1
+    max_grad_norm: 1.0
+  
+  pate:
+    num_teachers: 5
+    gamma: 0.1
+
+evaluation:
+  metrics:
+    - accuracy
+    - privacy_loss
+    - utility_loss
+  n_runs: 10
+
+visualization:
+  figsize: [10, 6]
+  dpi: 300
+  style: seaborn-v0_8
+
+logging:
+  level: INFO
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+defenses:
+  input_sanitization:
+    method: clipping
+    clip_value: 1.0
+  
+  k_anonymity:
+    k: 5
+    quasi_identifiers: ["age", "education"]
+  
+  synthetic_data:
+    method: gaussian
+    noise_level: 0.1
